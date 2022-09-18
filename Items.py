@@ -57,7 +57,6 @@ class Bomb(Item):
         if not remotely:
             new_game.activeBombs.remove(self)
             new_game.player.bombsLeft += 1
-
         stop_left = [False]
         stop_right = [False]
         stop_up = [False]
