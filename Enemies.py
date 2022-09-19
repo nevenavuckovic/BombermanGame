@@ -1,7 +1,5 @@
 import _thread
 import random
-import time
-
 from Items import *
 
 
@@ -27,10 +25,8 @@ class Enemy(object):
 
     def destroy_me(self, new_game):
         self.alive = False
-        # self.thread._stop.set()
         new_game.player.score += self.points
         new_game.enemies[self.x][self.y] = None
-        # new_game.GameWindow.LevelMap.Children.Remove(Image);
 
 
 class Ballom(Enemy):
@@ -41,14 +37,13 @@ class Ballom(Enemy):
     def move(self, new_game):
         rand = random.randint(0, 20)
         direction = 1 if (rand % 2 == 0) else -1
-
         while self.alive:
             time.sleep(1)
-
+            if not self.alive:
+                break
             new_game.enemies[self.x][self.y] = None
             item = new_game.items[self.x][self.y + direction]
             enemy = new_game.enemies[self.x][self.y + direction]
-
             game_over = False
             kill_me = False
             if item is not None and item.name == "fire":
@@ -61,13 +56,11 @@ class Ballom(Enemy):
                 self.y += direction
             elif item is None and enemy is None:
                 self.y += direction
-
             new_game.enemies[self.x][self.y] = self
             new_game.window.screen.blit(new_game.window.images[self.name],
                                         new_game.window.pygame.Rect((self.y + 1) * new_game.window.sqSize + 20,
                                                                     (self.x + 1) * new_game.window.sqSize + 20,
                                                                     new_game.window.sqSize, new_game.window.sqSize))
-
             if game_over:
                 new_game.window.running = False
             if kill_me:
@@ -88,6 +81,8 @@ class Onil(Enemy):
     def move(self, new_game):
         while self.alive:
             time.sleep(0.55)
+            if not self.alive:
+                break
             new_game.enemies[self.x][self.y] = None
             items = new_game.items
             enemies = new_game.enemies
@@ -96,8 +91,8 @@ class Onil(Enemy):
             if enemies[self.x + 1][self.y] is None and (items[self.x + 1][self.y] is None
                                                         or isinstance(items[self.x + 1][self.y], Fire)):
                 available_positions.append([self.x + 1, self.y])
-            if enemies[self.x - 1][self.y] is None and (items[self.x - 1][self.y]  is None
-                                                        or isinstance(items[self.x - 1][self.y] , Fire)):
+            if enemies[self.x - 1][self.y] is None and (items[self.x - 1][self.y] is None
+                                                        or isinstance(items[self.x - 1][self.y], Fire)):
                 available_positions.append([self.x - 1, self.y])
             if enemies[self.x][self.y + 1] is None and (items[self.x][self.y + 1] is None
                                                         or isinstance(items[self.x][self.y + 1], Fire)):
@@ -105,7 +100,6 @@ class Onil(Enemy):
             if enemies[self.x][self.y - 1] is None and (items[self.x][self.y - 1] is None
                                                         or isinstance(items[self.x][self.y - 1], Fire)):
                 available_positions.append([self.x, self.y - 1])
-
             size = len(available_positions)
             if size > 0:
                 rand = random.randint(0, 100)
@@ -116,7 +110,6 @@ class Onil(Enemy):
                                         new_game.window.pygame.Rect((self.y + 1) * new_game.window.sqSize + 20,
                                                                     (self.x + 1) * new_game.window.sqSize + 20,
                                                                     new_game.window.sqSize, new_game.window.sqSize))
-
             if player.x == self.x and player.y == self.y:
                 new_game.window.running = False
             if items[self.x][self.y] is not None and isinstance(items[self.x][self.y], Fire):
@@ -134,6 +127,8 @@ class Ovape(Enemy):
     def move(self, new_game):
         while self.alive:
             time.sleep(0.7)
+            if not self.alive:
+                break
             new_game.enemies[self.x][self.y] = None
             items = new_game.items
             enemies = new_game.enemies
@@ -159,7 +154,6 @@ class Ovape(Enemy):
                                                         or isinstance(items[self.x][self.y - 1], Wall)
                                                         and not isinstance(items[self.x][self.y - 1], Bomb)):
                 available_positions.append([self.x, self.y - 1])
-
             size = len(available_positions)
             if size > 0:
                 rand = random.randint(0, 100)
@@ -170,7 +164,6 @@ class Ovape(Enemy):
                                         new_game.window.pygame.Rect((self.y + 1) * new_game.window.sqSize + 20,
                                                                     (self.x + 1) * new_game.window.sqSize + 20,
                                                                     new_game.window.sqSize, new_game.window.sqSize))
-
             if player.x == self.x and player.y == self.y:
                 new_game.window.running = False
             if items[self.x][self.y] is not None and isinstance(items[self.x][self.y], Fire):
@@ -188,6 +181,8 @@ class Pontan(Enemy):
     def move(self, new_game):
         while self.alive:
             time.sleep(0.4)
+            if not self.alive:
+                break
             new_game.enemies[self.x][self.y] = None
             items = new_game.items
             enemies = new_game.enemies
@@ -213,7 +208,6 @@ class Pontan(Enemy):
                                                         or isinstance(items[self.x][self.y - 1], Wall)
                                                         and not isinstance(items[self.x][self.y - 1], Bomb)):
                 available_positions.append([self.x, self.y - 1])
-
             size = len(available_positions)
             if size > 0:
                 rand = random.randint(0, 100)
@@ -224,10 +218,7 @@ class Pontan(Enemy):
                                         new_game.window.pygame.Rect((self.y + 1) * new_game.window.sqSize + 20,
                                                                     (self.x + 1) * new_game.window.sqSize + 20,
                                                                     new_game.window.sqSize, new_game.window.sqSize))
-
             if player.x == self.x and player.y == self.y:
                 new_game.window.running = False
             if items[self.x][self.y] is not None and isinstance(items[self.x][self.y], Fire):
                 self.destroy_me(new_game)
-
-
