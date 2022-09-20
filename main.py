@@ -12,6 +12,7 @@ class Window:
         self.sqSize = 40
         self.images = {}
         self.running = True
+        self.win = False
         self.screen = pygame.display.set_mode((self.width, self.height))
         icon = pygame.image.load("resources/bomberman.png")
         pygame.display.set_caption("Bomberman")
@@ -44,9 +45,9 @@ class Window:
         self.images["wall"] = pygame.transform.scale(pygame.image.load("resources/wall.png"),
                                                      (self.sqSize, self.sqSize))
 
-    def write_text(self, text, x, y):
+    def write_text(self, text, x, y, color):
         font = pygame.font.Font('freesansbold.ttf', 20)
-        text = font.render(text, True, (0, 0, 0))
+        text = font.render(text, True, color)
         text_rect = text.get_rect()
         text_rect.center = (x, y)
         self.screen.blit(text, text_rect)
@@ -80,6 +81,8 @@ class Window:
 def main():
     pygame.init()
     window = Window()
+    pygame.mixer.music.load("resources/bgm.mp3")
+    pygame.mixer.music.play(-1)
     while window.running:
         i = window.game.player.x
         j = window.game.player.y
@@ -99,20 +102,29 @@ def main():
                     window.game.place_bomb(i, j)
                 if event.key == pygame.K_SPACE:
                     window.game.bombs_explode()
-        window.screen.fill((255, 255, 255))
+        window.screen.fill((245, 255, 255))
         window.draw_fields()
-        window.write_text("Level: " + str(window.game.level), 140, 30)
-        window.write_text("Score: " + str(window.game.player.score), 580, 30)
-        window.write_text("Time: " + str(window.game.gameTime), 1050, 30)
+        window.write_text("Level: " + str(window.game.level), 140, 30, (0, 0, 0))
+        window.write_text("Score: " + str(window.game.player.score), 580, 30, (0, 0, 0))
+        window.write_text("Time: " + str(window.game.gameTime), 1050, 30, (0, 0, 0))
         pygame.display.update()
     window.screen = pygame.display.set_mode((300, 200))
     window.running = True
+    pygame.mixer.music.stop()
+    pygame.mixer.music.unload()
+    pygame.mixer.music.load("resources/ending.mp3")
+    pygame.mixer.music.play(-1)
+    background = pygame.transform.scale(pygame.image.load("resources/win.jpg"), (300, 200))
     while window.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 window.running = False
-        window.screen.fill((255, 255, 255))
-        window.write_text("Your score is: " + str(window.game.player.score), 300/2, 200/2)
+        if window.win:
+            window.screen.fill((0, 0, 0))
+            window.screen.blit(background, (0, 0))
+        else:
+            window.screen.fill((0, 0, 0))
+        window.write_text("Your score is: " + str(window.game.player.score), 300 / 2, 200 / 2, (255, 255, 255))
         pygame.display.update()
 
 

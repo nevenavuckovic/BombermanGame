@@ -1,6 +1,8 @@
 import time
 import threading
 
+from pygame import mixer
+
 
 class StoppableThread(threading.Thread):
 
@@ -90,6 +92,7 @@ class Bomb(Item):
                 self.fire_up(new_game, stop_left, self.x - k, self.y, remotely)
                 self.fire_up(new_game, stop_right, self.x + k, self.y, remotely)
                 self.fire_up(new_game, stop_down, self.x, self.y + k, remotely)
+            mixer.Sound("resources/explosion.wav").play()
             time.sleep(0.5)
             for fire in self.fires:
                 new_game.items[fire.x][fire.y] = None

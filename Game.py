@@ -4,6 +4,7 @@ import Enemies
 import random
 import time
 import _thread
+from pygame import mixer
 
 
 class NewGame:
@@ -134,6 +135,7 @@ class NewGame:
                             enemy.start_moving(self)
             self.load_powers(level)
         else:
+            self.window.win = True
             self.window.running = False
 
     def move_bomberman(self, i, j):
@@ -154,6 +156,7 @@ class NewGame:
                 if all_killed:
                     self.level += 1
                     self.player.score += self.gameTime * 10
+                    mixer.Sound("resources/stage_clear.mp3").play()
                     self.load_level(self.level)
             elif self.power is not None and (i == self.power.x and j == self.power.y):
                 if self.power.name == "brc":
@@ -163,6 +166,7 @@ class NewGame:
                     self.player.bombsLeft += 1
                 elif self.power.name == "fr":
                     self.player.fireRange += 1
+                mixer.Sound("resources/power.wav").play()
                 self.player.score += 500
                 self.power = None
             elif self.enemies[i][j] is not None:
@@ -171,18 +175,18 @@ class NewGame:
             self.window.running = False
 
     def place_bomb(self, i, j):
-        if self.player.has_bomb():
-            if self.items[i][j] is None:
-                bomb = Bomb(i, j)
-                self.activeBombs.append(bomb)
-                self.items[i][j] = bomb
-                self.player.bombsLeft -= 1
-                self.window.screen.blit(self.window.images[bomb.name],
-                                        self.window.pygame.Rect((j + 1) * self.window.sqSize + 20,
-                                                                (i + 1) * self.window.sqSize + 20,
-                                                                self.window.sqSize, self.window.sqSize))
-                if not self.player.remoteControl:
-                    bomb.detonate(self, True, False)
+        if self.player.has_bomb() and self.items[i][j] is None:
+            mixer.Sound("resources/bomb.wav").play()
+            bomb = Bomb(i, j)
+            self.activeBombs.append(bomb)
+            self.items[i][j] = bomb
+            self.player.bombsLeft -= 1
+            self.window.screen.blit(self.window.images[bomb.name],
+                                    self.window.pygame.Rect((j + 1) * self.window.sqSize + 20,
+                                                            (i + 1) * self.window.sqSize + 20,
+                                                            self.window.sqSize, self.window.sqSize))
+            if not self.player.remoteControl:
+                bomb.detonate(self, True, False)
 
     def bombs_explode(self):
         if self.player.remoteControl and len(self.activeBombs) > 0:

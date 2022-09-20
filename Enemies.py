@@ -25,6 +25,7 @@ class Enemy(object):
 
     def destroy_me(self, new_game):
         self.alive = False
+        mixer.Sound("resources/enemy.mp3").play()
         new_game.player.score += self.points
         new_game.enemies[self.x][self.y] = None
 
