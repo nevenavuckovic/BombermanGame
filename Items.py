@@ -1,6 +1,5 @@
 import time
 import threading
-
 from pygame import mixer
 
 
