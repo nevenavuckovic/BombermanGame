@@ -18,7 +18,6 @@ class Window:
         pygame.display.set_caption("Bomberman")
         pygame.display.set_icon(icon)
         self.load_images()
-
         self.game = NewGame(self)
 
     def load_images(self):

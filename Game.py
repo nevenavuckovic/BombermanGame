@@ -21,7 +21,6 @@ class NewGame:
         self.items = Levels.levels[self.level]
         self.enemies = [[None] * window.columns for _ in range(window.rows)]
         self.activeBombs = []
-
         self.load_level(self.level)
 
     def load_powers(self, level):

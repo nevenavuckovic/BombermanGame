@@ -43,6 +43,7 @@ class Ballom(Enemy):
 
             if not self.alive:
                 break
+
             new_game.enemies[self.x][self.y] = None
             item = new_game.items[self.x][self.y + direction]
             enemy = new_game.enemies[self.x][self.y + direction]
