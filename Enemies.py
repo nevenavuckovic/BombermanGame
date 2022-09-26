@@ -40,6 +40,7 @@ class Ballom(Enemy):
         direction = 1 if (rand % 2 == 0) else -1
         while self.alive:
             time.sleep(1)
+
             if not self.alive:
                 break
             new_game.enemies[self.x][self.y] = None

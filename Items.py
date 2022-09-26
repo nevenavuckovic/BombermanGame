@@ -69,6 +69,7 @@ class Bomb(Item):
     def explode(self, new_game, wait, remotely):
         if wait:
             time.sleep(1)
+
         if self in new_game.activeBombs:
             if not remotely:
                 new_game.activeBombs.remove(self)
