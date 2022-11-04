@@ -103,6 +103,8 @@ class Bomb(Item):
         if not stop[0]:
             if new_game.player.x == i and new_game.player.y == j:
                 new_game.window.running = False
+            elif new_game.items[i][j] is None and new_game.door.x == i and new_game.door.y == j:
+                stop[0] = True
             elif new_game.items[i][j] is None and new_game.enemies[i][j] is None:
                 fire = Fire(i, j)
                 self.fires.append(fire)

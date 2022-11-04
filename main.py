@@ -109,7 +109,7 @@ def main():
         window.write_text("Time: " + str(window.game.gameTime), 1050, 30, (0, 0, 0))
         pygame.display.update()
     window.screen = pygame.display.set_mode((300, 200))
-    window.running = True
+    window.running = True 
     pygame.mixer.music.stop()
     pygame.mixer.music.unload()
     pygame.mixer.music.load("resources/ending.mp3")

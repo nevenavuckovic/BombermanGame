@@ -175,7 +175,7 @@ class NewGame:
             self.window.running = False
 
     def place_bomb(self, i, j):
-        if self.player.has_bomb() and self.items[i][j] is None:
+        if self.player.has_bomb() and self.items[i][j] is None and not (self.door.x == i and self.door.y == j):
             mixer.Sound("resources/bomb.wav").play()
             bomb = Bomb(i, j)
             self.activeBombs.append(bomb)
