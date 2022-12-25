@@ -46,7 +46,7 @@ class Window:
                                                      (self.sqSize, self.sqSize))
 
     def write_text(self, text, x, y, color):
-        font = pygame.font.Font('freesansbold.ttf', 20)
+        font = pygame.font.Font("C:\Windows\Fonts\Arial.ttf", 20)
         text = font.render(text, True, color)
         text_rect = text.get_rect()
         text_rect.center = (x, y)
@@ -61,11 +61,13 @@ class Window:
                 item = i[r][c]
                 enemy = e[r][c]
                 if item is not None:
-                    self.screen.blit(self.images[item.name], pygame.Rect((c+1)*self.sqSize+20, (r+1)*self.sqSize+20,
-                                                                         self.sqSize, self.sqSize))
+                    self.screen.blit(self.images[item.name],
+                                     pygame.Rect((c + 1) * self.sqSize + 20, (r + 1) * self.sqSize + 20,
+                                                 self.sqSize, self.sqSize))
                 if enemy is not None:
-                    self.screen.blit(self.images[enemy.name], pygame.Rect((c+1)*self.sqSize+20, (r+1)*self.sqSize+20,
-                                                                          self.sqSize, self.sqSize))
+                    self.screen.blit(self.images[enemy.name],
+                                     pygame.Rect((c + 1) * self.sqSize + 20, (r + 1) * self.sqSize + 20,
+                                                 self.sqSize, self.sqSize))
         self.screen.blit(self.images["player"], pygame.Rect((p.y + 1) * self.sqSize + 20, (p.x + 1) * self.sqSize + 20,
                                                             self.sqSize, self.sqSize))
         door = self.game.door
@@ -109,7 +111,7 @@ def main():
         window.write_text("Time: " + str(window.game.gameTime), 1050, 30, (0, 0, 0))
         pygame.display.update()
     window.screen = pygame.display.set_mode((300, 200))
-    window.running = True 
+    window.running = True
     pygame.mixer.music.stop()
     pygame.mixer.music.unload()
     pygame.mixer.music.load("resources/ending.mp3")
